@@ -1,7 +1,5 @@
 import soot.*;
-import soot.jimple.AddExpr;
-import soot.jimple.AssignStmt;
-import soot.jimple.MulExpr;
+import soot.jimple.*;
 import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.UnitGraph;
 
@@ -30,8 +28,14 @@ public class VNTransformer extends SceneTransformer {
                 if (assignStmt.getRightOp() instanceof AddExpr) {// check if add operation is right side
                     System.out.println("This is Addition operation");
                 }
-                if (assignStmt.getRightOp() instanceof MulExpr) {// check if add operation is right side
+                if (assignStmt.getRightOp() instanceof MulExpr) {// check if Multiplication operation is right side
                     System.out.println("This Multiplication operation");
+                }
+                if (assignStmt.getRightOp() instanceof DivExpr) {// check if Divide operation is right side
+                    System.out.println("This Divide operation");
+                }
+                if (assignStmt.getRightOp() instanceof SubExpr) {// check if Subtract operation is right side
+                    System.out.println("This Subtract operation");
                 }
                 //iterate over UseBoxes of current Unit (statement)-- It is right side of statement
                 for (ValueBox useBox : assignStmt.getUseBoxes()) {
