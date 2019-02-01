@@ -23,45 +23,60 @@ Transform mVNTransform = new Transform("wjtp.valNumbering", mVNTransformer);
 ```java
 PackManager.v().getPack("wjtp").add(mVNTransform);
 ```
-9. Next, here are pointers for Soot APIs used in ***VNTransformer***  class.
-10. Get Main class as a ***SootClass*** Object.
+## Code Guidelines for VNTransformer.java
+1. Next, here are pointers for Soot APIs used in ***VNTransformer***  class. Get Main class as a ***SootClass*** Object.
 ```java
 SootClass mainClass = Scene.v().getMainClass();
 ```
-11. Get ***test*** method as a ***SootMethod*** Object and get method body.
+2. Get ***test*** method as a ***SootMethod*** Object and get method body.
 ```java
 SootMethod testMethod = mainClass.getMethodByName("test");
 Body methodBody = testMethod.retrieveActiveBody();
 ```
-12. Create Directed graph object for method body.
+3. Create Directed graph object for method body.
 ```java
 UnitGraph graph = new BriefUnitGraph(methodBody);
 ```
-13. Next, iterate over the UnitGraph object and go through the statements. 
+4. Next, iterate over the UnitGraph object and go through the statements. 
 ```java
 Iterator<Unit> unitIt = graph.iterator();  
 while (unitIt.hasNext()) { 
-	Unit unit = unitIt.next();
-	...
+  Unit unit = unitIt.next();
+  ...
 }
 ```
-14. Following API helps to get Used Boxes of current Unit (statement) -- These are the things appearing right hand side of the statement. ***Local*** is Soot's representation of local variables of a method. 
+5. Following API helps to get Used Boxes of current Unit (statement) -- These are the things appearing right hand side of the statement. ***Local*** is Soot's representation of local variables of a method. 
 ```java
 for (ValueBox useBox : unit.getUseBoxes()) {  
     // if Value of defBox is Local variable  
   if (useBox.getValue() instanceof Local) {  
         Local useLocal = (Local) useBox.getValue();  
-		System.out.println("Used:" + useLocal.getName());  
+    System.out.println("Used:" + useLocal.getName());  
   }  
 }
 ```
-16. Following API helps to get Defined Boxes of current Unit (statement) -- These are the things appearing left hand side of the statement.
+6. Comparing and casting to Assignment Statement.
+```java
+if (unit instanceof AssignStmt) {
+  AssignStmt assignStmt = (AssignStmt) unit;
+}
+``` 
+7. Comparing and casting to get Right hand operands,  to Assignment Statement.
+```java
+if (assignStmt.getRightOp() instanceof AddExpr) {
+  // This is Add Operation on right
+}
+if (assignStmt.getRightOp() instanceof MulExpr) { 
+  // This is Multiply Operation on right
+}
+``` 
+8. Following API helps to get Defined Boxes of current Unit (statement) -- These are the things appearing left hand side of the statement.
 ```java
 for (ValueBox defBox : unit.getDefBoxes()) {  
     // if Value of defBox is Local variable  
   if (defBox.getValue() instanceof Local) {  
         Local defLocal = (Local) defBox.getValue();  
-		System.out.println("Defined:" + defLocal.getName());  
+    System.out.println("Defined:" + defLocal.getName());  
   }  
 }
 ```

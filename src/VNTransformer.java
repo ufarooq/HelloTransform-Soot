@@ -1,6 +1,10 @@
 import soot.*;
+import soot.jimple.AddExpr;
+import soot.jimple.AssignStmt;
+import soot.jimple.MulExpr;
 import soot.toolkits.graph.BriefUnitGraph;
 import soot.toolkits.graph.UnitGraph;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -20,20 +24,30 @@ public class VNTransformer extends SceneTransformer {
         while (unitIt.hasNext()) {
             Unit unit = unitIt.next();
             System.out.println(unit);
-            //iterate over UseBoxes of current Unit (statement)-- It is right side of statement
-            for (ValueBox useBox : unit.getUseBoxes()) {
-                // if Value of defBox is Local variable
-                if (useBox.getValue() instanceof Local) {
-                    Local useLocal = (Local) useBox.getValue();
-                    System.out.println("Used:" + useLocal.getName());
+            if (unit instanceof AssignStmt) { // check if it is Assignment Statement
+                AssignStmt assignStmt = (AssignStmt) unit;
+
+                if (assignStmt.getRightOp() instanceof AddExpr) {// check if add operation is right side
+                    System.out.println("This is Addition operation");
                 }
-            }
-            //iterate over DefBoxes of current Unit (statement)-- It is left side of statement
-            for (ValueBox defBox : unit.getDefBoxes()) {
-                // if Value of defBox is Local variable
-                if (defBox.getValue() instanceof Local) {
-                    Local defLocal = (Local) defBox.getValue();
-                    System.out.println("Defined:" + defLocal.getName());
+                if (assignStmt.getRightOp() instanceof MulExpr) {// check if add operation is right side
+                    System.out.println("This Multiplication operation");
+                }
+                //iterate over UseBoxes of current Unit (statement)-- It is right side of statement
+                for (ValueBox useBox : assignStmt.getUseBoxes()) {
+                    // if Value of defBox is Local variable
+                    if (useBox.getValue() instanceof Local) {
+                        Local useLocal = (Local) useBox.getValue();
+                        System.out.println("Used:" + useLocal.getName());
+                    }
+                }
+                //iterate over DefBoxes of current Unit (statement)-- It is left side of statement
+                for (ValueBox defBox : assignStmt.getDefBoxes()) {
+                    // if Value of defBox is Local variable
+                    if (defBox.getValue() instanceof Local) {
+                        Local defLocal = (Local) defBox.getValue();
+                        System.out.println("Defined:" + defLocal.getName());
+                    }
                 }
             }
         }
