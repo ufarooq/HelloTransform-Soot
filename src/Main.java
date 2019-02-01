@@ -1,19 +1,19 @@
 import soot.*;
 import soot.options.Options;
+
 import java.util.ArrayList;
 
 public class Main {
 
     public static void main(String[] args) {
-       // String outputPath = "results";
         String classPath = "inputs";
         configureSoot(classPath);// configure soot
         Scene.v().loadNecessaryClasses(); // load all the library and dependencies for given program
-
-        PackManager.v().getPack("wjtp").add(new Transform("wjtp.df", new VNTransformer()));
+        VNTransformer mVNTransformer = new VNTransformer();
+        Transform mVNTransform = new Transform("wjtp.valNumbering", mVNTransformer);
+        PackManager.v().getPack("wjtp").add(mVNTransform);// add in Whole-program Jimple Transformer(wjtp)
 
         PackManager.v().runPacks();  // process and build call graph
-        //PackManager.v().writeOutput(); // write output
     }
 
     public static void configureSoot(String classpath) {
@@ -25,13 +25,7 @@ public class Main {
         ArrayList<String> list = new ArrayList<>();
         list.add(classpath);
         Options.v().set_process_dir(list); // process all .class files in directory
-        //Options.v().set_output_dir(outDirectory); // directory to write output
         Options.v().setPhaseOption("cg.spark", "on"); // use spark for call graph
-        Options.v().set_ast_metrics(true);
-        /*String allWildcard = "ALL"; // dump cfg for all phases
-        ArrayList<String> cfg_list = new ArrayList<>();
-        cfg_list.add(allWildcard);
-        Options.v().set_dump_cfg(cfg_list);*/
     }
 
 }
