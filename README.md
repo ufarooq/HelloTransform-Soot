@@ -9,8 +9,8 @@ Getting started with Soot Transformer and Packs
 ```java
 String classPath =  "inputs";
 ```
-5. Configure Soot as it mentioned in Part 1.
-6. Inside main method ***Main.java***, create object for our ***VNTransformer*** class.
+5. Configure Soot as it mentioned in Part 1 and follow next for code reference inside both provided classes. 
+6. Inside main method of ***Main.java***, create object for our ***VNTransformer*** class.
 ```java
 VNTransformer mVNTransformer = new VNTransformer();
 ```
