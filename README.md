@@ -61,13 +61,19 @@ if (unit instanceof AssignStmt) {
   AssignStmt assignStmt = (AssignStmt) unit;
 }
 ``` 
-7. Comparing and casting to get Right hand operands,  to Assignment Statement.
+7. Comparing and casting to get Right hand operands of Assignment Statement.
 ```java
 if (assignStmt.getRightOp() instanceof AddExpr) {
   // This is Add Operation on right
 }
 if (assignStmt.getRightOp() instanceof MulExpr) { 
   // This is Multiply Operation on right
+}
+if (assignStmt.getRightOp() instanceof DivExpr) { 
+  // This is Divide operation on right
+}  
+if (assignStmt.getRightOp() instanceof SubExpr) {
+  // This is Subtract operation on right
 }
 ``` 
 8. Following API helps to get Defined Boxes of current Unit (statement) -- These are the things appearing left hand side of the statement.
