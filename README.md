@@ -14,7 +14,7 @@ String classPath =  "inputs";
 ```java
 VNTransformer mVNTransformer = new VNTransformer();
 ```
-7. Then, an object for Transform. 
+7. Then, create an object for Transform. 
 ```java
 Transform mVNTransform = new Transform("wjtp.valNumbering", mVNTransformer);
 //First Argument is name of Transform, second argument is an object of our Transformer
