@@ -61,7 +61,7 @@ if (unit instanceof AssignStmt) {
   AssignStmt assignStmt = (AssignStmt) unit;
 }
 ``` 
-7. Comparing and casting to get Right hand operands of Assignment Statement.
+7. Comparing and casting Right hand operands of Assignment Statement.
 ```java
 if (assignStmt.getRightOp() instanceof AddExpr) {
   // This is Add Operation on right
